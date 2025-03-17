@@ -29,6 +29,19 @@ const NavBar: React.FC = () => {
     document.querySelector(link)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Add a body class when mobile menu is open to prevent scrolling
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <header
       className={cn(
@@ -77,7 +90,7 @@ const NavBar: React.FC = () => {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          'fixed inset-0 top-[72px] bg-background/95 backdrop-blur-sm flex flex-col md:hidden transition-transform duration-300 ease-in-out',
+          'fixed inset-0 top-[72px] bg-background/95 backdrop-blur-md border-t border-border/50 flex flex-col md:hidden transition-transform duration-300 ease-in-out z-40',
           mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >

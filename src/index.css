@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Instrument+Sans:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -129,6 +130,11 @@
   .card-hover {
     @apply transition-all duration-300 ease-in-out hover:shadow-lg hover:translate-y-[-4px];
   }
+  
+  /* Mobile menu backdrop */
+  .mobile-menu-backdrop {
+    @apply bg-background/95 backdrop-blur-md border-t border-border/50;
+  }
 }
 
 /* Custom scrollbar */
@@ -188,4 +194,9 @@ html {
   100% {
     transform: translateY(0px) rotate(360deg);
   }
+}
+
+/* When mobile menu is open, prevent scrolling */
+body.overflow-hidden {
+  overflow: hidden;
 }
