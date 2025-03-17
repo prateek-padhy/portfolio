@@ -25,10 +25,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.1 }}
       className="card-hover bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border/50 overflow-hidden"
     >
       <div className="relative mb-6 overflow-hidden rounded-xl aspect-video">
