@@ -1,18 +1,30 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code, Layout, Palette, Sparkles, Zap } from 'lucide-react';
+import { Code, Layout, Palette, Sparkles, Zap, Book, Globe, GitBranch, Server } from 'lucide-react';
 
 const About: React.FC = () => {
   const skills = [
-    { name: "JavaScript/TypeScript", level: 90 },
-    { name: "React & React Native", level: 85 },
-    { name: "Next.js", level: 80 },
-    { name: "HTML & CSS", level: 95 },
-    { name: "Tailwind CSS", level: 90 },
-    { name: "Redux", level: 75 },
-    { name: "Node.js", level: 70 },
-    { name: "UI/UX Design", level: 65 },
+    {
+      category: "Frontend Development",
+      icon: <Layout className="w-6 h-6" />,
+      technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]
+    },
+    {
+      category: "UI/UX Design",
+      icon: <Palette className="w-6 h-6" />,
+      technologies: ["Figma", "Adobe XD", "Responsive Design", "Wireframing", "Prototyping"]
+    },
+    {
+      category: "Tools & Methods",
+      icon: <GitBranch className="w-6 h-6" />,
+      technologies: ["Git", "GitHub", "Agile/Scrum", "CI/CD", "Jest/Testing Library"]
+    },
+    {
+      category: "Backend Knowledge",
+      icon: <Server className="w-6 h-6" />,
+      technologies: ["Node.js", "RESTful APIs", "Express", "Firebase", "MongoDB"]
+    },
   ];
   
   const services = [
@@ -39,7 +51,7 @@ const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-20 px-6 bg-secondary/30">
+    <section id="about" className="py-20 px-6 bg-secondary/30 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -88,23 +100,33 @@ const About: React.FC = () => {
           >
             <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 border border-border/50">
               <h3 className="text-2xl font-bold font-display mb-6">Skills & Technologies</h3>
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {skills.map((skill, index) => (
-                  <div key={index} className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{skill.name}</span>
-                      <span className="text-muted-foreground text-sm">{skill.level}%</span>
+                  <motion.div 
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                    viewport={{ once: true }}
+                    className="bg-background/50 rounded-xl p-4 border border-border/50"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                        {skill.icon}
+                      </div>
+                      <h4 className="font-medium">{skill.category}</h4>
                     </div>
-                    <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-accent"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        transition={{ duration: 1, delay: 0.1 * index, ease: "easeOut" }}
-                        viewport={{ once: true }}
-                      />
+                    <div className="flex flex-wrap gap-2">
+                      {skill.technologies.map((tech, i) => (
+                        <span 
+                          key={i} 
+                          className="px-2 py-1 bg-secondary rounded-md text-sm text-muted-foreground"
+                        >
+                          {tech}
+                        </span>
+                      ))}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
