@@ -176,3 +176,16 @@ html {
   transform: translateY(-8px);
   transition: opacity 400ms, transform 400ms;
 }
+
+/* Floating icons animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(100vh) rotate(180deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(360deg);
+  }
+}
