@@ -51,7 +51,8 @@ const NavBar: React.FC = () => {
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <a href="#home" className="font-display font-bold text-xl sm:text-2xl">
-          <span className="shimmer-effect">Portfolio</span>
+          <span>Prateek </span>
+          <span className="shimmer-effect">Padhy</span>
         </a>
 
         {/* Desktop Navigation */}
