@@ -1,10 +1,5 @@
 
-import { useEffect, useRef } from 'react';
-
 const ProjectsSection = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const elementsRef = useRef<(HTMLElement | null)[]>([]);
-
   const projects = [
     {
       title: 'E-Commerce Platform',
@@ -29,100 +24,55 @@ const ProjectsSection = () => {
       tags: ['HTML', 'SCSS', 'JavaScript', 'GSAP'],
       liveLink: '#',
       codeLink: '#'
-    },
-    {
-      title: 'Weather Dashboard',
-      description: 'A weather application that provides real-time weather data and forecasts using external APIs, with a clean, responsive interface.',
-      image: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=1000',
-      tags: ['React', 'API Integration', 'Tailwind CSS'],
-      liveLink: '#',
-      codeLink: '#'
     }
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      const revealElements = sectionRef.current.querySelectorAll('.reveal');
-      revealElements.forEach((el) => observer.observe(el));
-      elementsRef.current = Array.from(revealElements) as HTMLElement[];
-    }
-
-    return () => {
-      elementsRef.current.forEach((el) => {
-        if (el) observer.unobserve(el);
-      });
-    };
-  }, []);
-
   return (
-    <section
-      id="projects"
-      ref={sectionRef}
-      className="py-20 md:py-32 bg-white"
-    >
-      <div className="container px-6 mx-auto">
-        <h2 className="section-title text-center mb-16 mx-auto reveal" data-animation="fade-up">
-          My Projects
-        </h2>
+    <section id="projects" className="py-24 px-6">
+      <div className="container mx-auto max-w-5xl">
+        <div className="section-divider"></div>
         
-        <p className="text-lg mb-12 text-center max-w-3xl mx-auto text-foreground/80 reveal" data-animation="fade-up">
-          Here are some of the projects I've worked on. I specialize in crafting beautiful, interactive, and scalable web applications. Click through to view the live projects and their code.
-        </p>
+        <div className="mt-10 mb-12">
+          <div className="section-number">02</div>
+          <h2 className="section-title">Projects</h2>
+        </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-16">
           {projects.map((project, index) => (
-            <div 
-              key={index}
-              className="project-card h-80 reveal"
-              data-animation="fade-up"
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              <img 
-                src={project.image} 
-                alt={project.title}
-                className="w-full h-full object-cover"
-              />
+            <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-1">
+                <div className="aspect-square bg-gray-100 border border-border overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
               
-              <div className="project-overlay">
-                <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
-                <p className="mb-4 text-white/90 text-sm">{project.description}</p>
+              <div className="md:col-span-2">
+                <h3 className="text-2xl font-serif mb-2">{project.title}</h3>
+                <p className="mb-4 text-base">{project.description}</p>
                 
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.map((tag, i) => (
-                    <span key={i} className="px-2 py-1 bg-white/10 rounded-full text-xs">
+                    <span key={i} className="text-sm bg-secondary py-1 px-3">
                       {tag}
                     </span>
                   ))}
                 </div>
                 
                 <div className="flex space-x-4">
-                  <a href={project.liveLink} className="px-4 py-2 bg-primary rounded hover:bg-primary/90 transition-colors text-sm">
-                    Live Demo
+                  <a href={project.liveLink} className="text-sm underline">
+                    View Project
                   </a>
-                  <a href={project.codeLink} className="px-4 py-2 bg-white/20 rounded hover:bg-white/30 transition-colors text-sm">
+                  <a href={project.codeLink} className="text-sm underline">
                     View Code
                   </a>
                 </div>
               </div>
             </div>
           ))}
-        </div>
-        
-        <div className="mt-16 text-center reveal" data-animation="fade-up">
-          <a href="#contact" className="btn-primary">
-            Contact Me
-          </a>
         </div>
       </div>
     </section>
