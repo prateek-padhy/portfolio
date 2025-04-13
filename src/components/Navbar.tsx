@@ -1,14 +1,10 @@
 
 import { useState, useEffect } from 'react';
-import { Gamepad, X } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [gameActive, setGameActive] = useState(false);
-  const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(15);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [targets, setTargets] = useState<{id: number, x: number, y: number}[]>([]);
+  const [easterEggActive, setEasterEggActive] = useState(false);
   const brandName = "John Doe";
 
   useEffect(() => {
@@ -21,56 +17,8 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (gameStarted && timeLeft > 0) {
-      const timer = setTimeout(() => {
-        setTimeLeft(prev => prev - 1);
-      }, 1000);
-      
-      return () => clearTimeout(timer);
-    } else if (gameStarted && timeLeft === 0) {
-      setGameStarted(false);
-    }
-  }, [gameStarted, timeLeft]);
-
-  useEffect(() => {
-    if (gameStarted && timeLeft > 0) {
-      const interval = setInterval(() => {
-        if (targets.length < 5) {
-          const newTarget = {
-            id: Date.now(),
-            x: Math.random() * 80 + 10, // 10-90% of container width
-            y: Math.random() * 80 + 10  // 10-90% of container height
-          };
-          setTargets(prev => [...prev, newTarget]);
-        }
-      }, 1000);
-      
-      return () => clearInterval(interval);
-    }
-  }, [gameStarted, timeLeft, targets.length]);
-
-  const toggleGame = () => {
-    setGameActive(!gameActive);
-    if (!gameActive) {
-      // Reset game state
-      setScore(0);
-      setTimeLeft(15);
-      setGameStarted(false);
-      setTargets([]);
-    }
-  };
-
-  const startGame = () => {
-    setGameStarted(true);
-    setScore(0);
-    setTimeLeft(15);
-    setTargets([]);
-  };
-
-  const hitTarget = (id: number) => {
-    setTargets(prev => prev.filter(target => target.id !== id));
-    setScore(prev => prev + 1);
+  const toggleEasterEgg = () => {
+    setEasterEggActive(!easterEggActive);
   };
 
   return (
@@ -99,65 +47,41 @@ const Navbar = () => {
         </div>
       </header>
       
-      {/* Game Button */}
-      <button onClick={toggleGame} className="easter-egg" aria-label="Mini Game">
-        <Gamepad className="w-5 h-5 text-purple-500" />
+      {/* Easter Egg Button */}
+      <button onClick={toggleEasterEgg} className="easter-egg" aria-label="Easter Egg">
+        <Sparkles className="w-5 h-5 text-purple-500" />
       </button>
 
-      {/* Mini Game */}
-      <div className={`easter-egg-content ${gameActive ? 'active' : ''}`}>
-        <div className="max-w-xl w-full p-8 bg-white rounded-lg shadow-xl relative">
-          <button 
-            onClick={toggleGame} 
-            className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
-            aria-label="Close game"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          
-          <h2 className="text-4xl font-serif mb-4">Target Practice</h2>
-          
-          <div className="mb-4 flex justify-between items-center">
-            <div className="text-lg">Score: <span className="font-bold">{score}</span></div>
-            <div className="text-lg">Time: <span className={`font-bold ${timeLeft <= 5 ? 'text-red-500' : ''}`}>{timeLeft}s</span></div>
+      {/* Easter Egg Content */}
+      <div className={`easter-egg-content ${easterEggActive ? 'active' : ''}`}>
+        <div className="max-w-xl p-8 bg-white rounded-md shadow-xl">
+          <h2 className="text-4xl font-serif mb-4">Fun Facts About Me</h2>
+          <ul className="space-y-4 mb-6">
+            <li className="flex items-start">
+              <span className="text-purple-500 mr-2">•</span>
+              <span>I once debugged code for 16 hours straight, fueled only by coffee and determination.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-purple-500 mr-2">•</span>
+              <span>My first website was a fan page for my pet goldfish when I was 14.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-purple-500 mr-2">•</span>
+              <span>I can type at 110 WPM, but only when writing code.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-purple-500 mr-2">•</span>
+              <span>I secretly enjoy fixing CSS bugs that everyone else hates.</span>
+            </li>
+          </ul>
+          <div className="text-center">
+            <button 
+              onClick={toggleEasterEgg} 
+              className="px-6 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors"
+            >
+              Back to Portfolio
+            </button>
           </div>
-          
-          {!gameStarted ? (
-            <div className="text-center">
-              <p className="mb-6">
-                Click as many targets as you can in 15 seconds!
-              </p>
-              <button 
-                onClick={startGame} 
-                className="px-6 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors"
-              >
-                Start Game
-              </button>
-              
-              {timeLeft === 0 && (
-                <div className="mt-6 p-4 bg-purple-100 rounded-md">
-                  <p className="font-bold text-lg">Game Over!</p>
-                  <p>Your final score: {score}</p>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="relative h-64 w-full bg-gray-100 rounded-lg overflow-hidden">
-              {targets.map(target => (
-                <button
-                  key={target.id}
-                  className="absolute w-8 h-8 bg-purple-500 rounded-full hover:bg-purple-600 transition-colors transform hover:scale-110"
-                  style={{
-                    left: `${target.x}%`,
-                    top: `${target.y}%`,
-                    transform: 'translate(-50%, -50%)'
-                  }}
-                  onClick={() => hitTarget(target.id)}
-                  aria-label="Target"
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </>
