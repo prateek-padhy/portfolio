@@ -1,6 +1,7 @@
 
 import { useState, useEffect, useRef } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Gamepad, Home, User, Briefcase, Mail } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -12,6 +13,7 @@ const Navbar = () => {
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
   const targetGeneratorRef = useRef<NodeJS.Timeout | null>(null);
   const brandName = "John Doe";
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,12 +52,15 @@ const Navbar = () => {
         const height = gameAreaRef.current.offsetHeight;
         const size = Math.random() * 30 + 20;
         
+        // Calculate position ensuring targets don't appear behind UI elements
+        const safeMarginTop = 100; // Space for top UI (score, time, etc)
+        
         setTargets(prev => [
           ...prev, 
           {
             id: Date.now(),
             x: Math.random() * (width - size),
-            y: Math.random() * (height - size),
+            y: safeMarginTop + Math.random() * (height - size - safeMarginTop),
             size
           }
         ]);
@@ -86,32 +91,51 @@ const Navbar = () => {
             ))}
           </a>
           
-          <div className="flex items-center space-x-10">
-            <a href="#about" className="nav-link">
-              About
-            </a>
-            <a href="#projects" className="nav-link">
-              Projects
-            </a>
-            <a href="#contact" className="nav-link">
-              Contact
-            </a>
+          <div className="flex items-center space-x-6 md:space-x-10">
+            {isMobile ? (
+              <>
+                <a href="#home" className="nav-link p-2">
+                  <Home className="w-5 h-5" />
+                </a>
+                <a href="#about" className="nav-link p-2">
+                  <User className="w-5 h-5" />
+                </a>
+                <a href="#projects" className="nav-link p-2">
+                  <Briefcase className="w-5 h-5" />
+                </a>
+                <a href="#contact" className="nav-link p-2">
+                  <Mail className="w-5 h-5" />
+                </a>
+              </>
+            ) : (
+              <>
+                <a href="#about" className="nav-link">
+                  About
+                </a>
+                <a href="#projects" className="nav-link">
+                  Projects
+                </a>
+                <a href="#contact" className="nav-link">
+                  Contact
+                </a>
+              </>
+            )}
           </div>
         </div>
       </header>
       
-      {/* Mini-Game Button */}
+      {/* Mini-Game Button - now using Gamepad icon */}
       <button onClick={() => gameActive ? endGame() : startGame()} className="easter-egg" aria-label="Mini Game">
-        <Sparkles className="w-5 h-5 text-purple-500" />
+        <Gamepad className="w-5 h-5 text-purple-500" />
       </button>
 
       {/* Target Practice Mini-Game */}
       <div className={`easter-egg-content ${gameActive ? 'active' : ''}`} ref={gameAreaRef}>
         <div className="absolute top-5 left-0 w-full flex justify-between px-8 z-10">
-          <div className="bg-white/90 py-2 px-4 rounded-md shadow-md">
+          <div className="bg-white/90 py-2 px-4 rounded-md shadow-md w-24 text-center">
             <span className="font-bold text-purple-600">Score: {score}</span>
           </div>
-          <div className="bg-white/90 py-2 px-4 rounded-md shadow-md">
+          <div className="bg-white/90 py-2 px-4 rounded-md shadow-md w-24 text-center">
             <span className="font-bold text-purple-600">Time: {timeLeft}s</span>
           </div>
           <button 
@@ -151,7 +175,8 @@ const Navbar = () => {
               left: `${target.x}px`,
               top: `${target.y}px`,
               width: `${target.size}px`,
-              height: `${target.size}px`
+              height: `${target.size}px`,
+              zIndex: 5 // Ensure targets are below UI but above background
             }}
             onClick={() => hitTarget(target.id)}
           />
