@@ -51,11 +51,11 @@ const HeroSection = () => {
 
       <div className="container mx-auto max-w-5xl z-10">
         <div className="flex flex-col md:flex-row justify-between items-start">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-8 md:mb-0 max-w-2xl reveal" data-animation="fade-up">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-8 md:mb-0 max-w-3xl whitespace-pre-line reveal" data-animation="fade-up">
             {headlineText.split('').map((char, index) => (
               <span 
                 key={index} 
-                className="char-animate" 
+                className="char-animate inline-block" 
                 style={{ transitionDelay: `${index * 30}ms` }}
               >
                 {char === ' ' ? '\u00A0' : char}

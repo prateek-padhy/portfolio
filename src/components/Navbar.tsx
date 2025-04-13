@@ -1,10 +1,16 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Sparkles } from 'lucide-react';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [easterEggActive, setEasterEggActive] = useState(false);
+  const [gameActive, setGameActive] = useState(false);
+  const [score, setScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [targets, setTargets] = useState<{id: number, x: number, y: number, size: number}[]>([]);
+  const gameAreaRef = useRef<HTMLDivElement>(null);
+  const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const targetGeneratorRef = useRef<NodeJS.Timeout | null>(null);
   const brandName = "John Doe";
 
   useEffect(() => {
@@ -17,8 +23,55 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleEasterEgg = () => {
-    setEasterEggActive(!easterEggActive);
+  const startGame = () => {
+    setGameActive(true);
+    setScore(0);
+    setTimeLeft(30);
+    setTargets([]);
+    
+    // Start timer
+    if (gameTimerRef.current) clearInterval(gameTimerRef.current);
+    gameTimerRef.current = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(gameTimerRef.current as NodeJS.Timeout);
+          clearInterval(targetGeneratorRef.current as NodeJS.Timeout);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
+    // Generate targets
+    if (targetGeneratorRef.current) clearInterval(targetGeneratorRef.current);
+    targetGeneratorRef.current = setInterval(() => {
+      if (gameAreaRef.current) {
+        const width = gameAreaRef.current.offsetWidth;
+        const height = gameAreaRef.current.offsetHeight;
+        const size = Math.random() * 30 + 20;
+        
+        setTargets(prev => [
+          ...prev, 
+          {
+            id: Date.now(),
+            x: Math.random() * (width - size),
+            y: Math.random() * (height - size),
+            size
+          }
+        ]);
+      }
+    }, 1000);
+  };
+
+  const endGame = () => {
+    if (gameTimerRef.current) clearInterval(gameTimerRef.current);
+    if (targetGeneratorRef.current) clearInterval(targetGeneratorRef.current);
+    setGameActive(false);
+  };
+
+  const hitTarget = (id: number) => {
+    setTargets(prev => prev.filter(target => target.id !== id));
+    setScore(prev => prev + 1);
   };
 
   return (
@@ -47,42 +100,62 @@ const Navbar = () => {
         </div>
       </header>
       
-      {/* Easter Egg Button */}
-      <button onClick={toggleEasterEgg} className="easter-egg" aria-label="Easter Egg">
+      {/* Mini-Game Button */}
+      <button onClick={() => gameActive ? endGame() : startGame()} className="easter-egg" aria-label="Mini Game">
         <Sparkles className="w-5 h-5 text-purple-500" />
       </button>
 
-      {/* Easter Egg Content */}
-      <div className={`easter-egg-content ${easterEggActive ? 'active' : ''}`}>
-        <div className="max-w-xl p-8 bg-white rounded-md shadow-xl">
-          <h2 className="text-4xl font-serif mb-4">Fun Facts About Me</h2>
-          <ul className="space-y-4 mb-6">
-            <li className="flex items-start">
-              <span className="text-purple-500 mr-2">•</span>
-              <span>I once debugged code for 16 hours straight, fueled only by coffee and determination.</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-500 mr-2">•</span>
-              <span>My first website was a fan page for my pet goldfish when I was 14.</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-500 mr-2">•</span>
-              <span>I can type at 110 WPM, but only when writing code.</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-500 mr-2">•</span>
-              <span>I secretly enjoy fixing CSS bugs that everyone else hates.</span>
-            </li>
-          </ul>
-          <div className="text-center">
-            <button 
-              onClick={toggleEasterEgg} 
-              className="px-6 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors"
-            >
-              Back to Portfolio
-            </button>
+      {/* Target Practice Mini-Game */}
+      <div className={`easter-egg-content ${gameActive ? 'active' : ''}`} ref={gameAreaRef}>
+        <div className="absolute top-5 left-0 w-full flex justify-between px-8 z-10">
+          <div className="bg-white/90 py-2 px-4 rounded-md shadow-md">
+            <span className="font-bold text-purple-600">Score: {score}</span>
           </div>
+          <div className="bg-white/90 py-2 px-4 rounded-md shadow-md">
+            <span className="font-bold text-purple-600">Time: {timeLeft}s</span>
+          </div>
+          <button 
+            onClick={endGame}
+            className="bg-white/90 py-2 px-4 rounded-md shadow-md hover:bg-white"
+          >
+            Exit Game
+          </button>
         </div>
+        
+        {timeLeft === 0 && (
+          <div className="bg-white p-8 rounded-md shadow-xl z-20 relative">
+            <h2 className="text-4xl font-serif mb-4 text-center">Game Over!</h2>
+            <p className="text-xl mb-6 text-center">Your score: <span className="font-bold text-purple-600">{score}</span></p>
+            <div className="flex justify-center">
+              <button 
+                onClick={startGame}
+                className="mr-4 px-6 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors"
+              >
+                Play Again
+              </button>
+              <button 
+                onClick={endGame}
+                className="px-6 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+        
+        {targets.map(target => (
+          <div 
+            key={target.id}
+            className="absolute bg-purple-500 rounded-full cursor-pointer transform hover:scale-110 transition-transform"
+            style={{
+              left: `${target.x}px`,
+              top: `${target.y}px`,
+              width: `${target.size}px`,
+              height: `${target.size}px`
+            }}
+            onClick={() => hitTarget(target.id)}
+          />
+        ))}
       </div>
     </>
   );

@@ -17,7 +17,7 @@ const ProjectsSection = () => {
     {
       title: 'Task Management App',
       description: 'A dynamic single-page application for managing tasks, built with Vue.js and Firebase, with real-time updates and drag-and-drop functionality.',
-      image: 'https://images.unsplash.com/photo-1611224885990-ab7363d7f2a0?q=80&w=1000',
+      image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=1000',
       tags: ['Vue.js', 'Firebase', 'CSS3', 'JavaScript'],
       liveLink: '#',
       codeLink: '#'
