@@ -51,17 +51,22 @@ const HeroSection = () => {
 
       <div className="container mx-auto max-w-5xl z-10">
         <div className="flex flex-col md:flex-row justify-between items-start">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-8 md:mb-0 max-w-2xl reveal" data-animation="fade-up">
-            {headlineText.split('').map((char, index) => (
-              <span 
-                key={index} 
-                className="char-animate" 
-                style={{ transitionDelay: `${index * 30}ms` }}
-              >
-                {char === ' ' ? '\u00A0' : char}
-              </span>
-            ))}
-          </h1>
+          <div className="max-w-2xl">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-8 md:mb-4 whitespace-pre-line reveal" data-animation="fade-up">
+              {headlineText.split('').map((char, index) => (
+                <span 
+                  key={index} 
+                  className="char-animate" 
+                  style={{ transitionDelay: `${index * 30}ms` }}
+                >
+                  {char === ' ' ? '\u00A0' : char}
+                </span>
+              ))}
+            </h1>
+            <p className="text-lg opacity-75 md:mt-6 reveal" data-animation="fade-up" style={{ transitionDelay: '300ms' }}>
+              Crafting intuitive experiences with modern technologies.
+            </p>
+          </div>
           
           <div className="text-right hidden md:block">
             <span className="font-serif italic text-lg opacity-75">Frontend Developer</span>
