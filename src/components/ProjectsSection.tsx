@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { ExternalLink, Github } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 
 const ProjectsSection = () => {
   const [activeProject, setActiveProject] = useState<number | null>(null);
@@ -38,65 +39,67 @@ const ProjectsSection = () => {
         <div className="section-divider"></div>
         
         <div className="mt-10 mb-12">
-          <div className="section-number">02</div>
           <h2 className="section-title">Projects</h2>
         </div>
         
         <div className="grid grid-cols-1 gap-16">
           {projects.map((project, index) => (
-            <div 
+            <Card 
               key={index} 
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal"
-              data-animation={index % 2 === 0 ? "fade-right" : "fade-left"}
+              className={`overflow-hidden border border-border transition-all duration-300 hover:shadow-lg ${activeProject === index ? 'ring-2 ring-purple-500/30 shadow-md' : ''}`}
               onMouseEnter={() => setActiveProject(index)}
               onMouseLeave={() => setActiveProject(null)}
             >
-              <div className="md:col-span-1">
-                <div className="aspect-square bg-gray-100 border border-border overflow-hidden rounded-md group relative cursor-pointer">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-              </div>
-              
-              <div className="md:col-span-2">
-                <h3 className="text-2xl font-serif mb-2 relative">
-                  {project.title}
-                  {activeProject === index && (
-                    <span className="absolute -left-3 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-purple-500 rounded-full"></span>
-                  )}
-                </h3>
-                <p className="mb-4 text-base">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, i) => (
-                    <span 
-                      key={i} 
-                      className={`text-sm py-1 px-3 rounded-full transition-colors duration-300 
-                        ${activeProject === index 
-                          ? 'bg-purple-100 text-purple-800' 
-                          : 'bg-secondary text-foreground/70'}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                <div className="md:col-span-1 h-full">
+                  <div className="h-full aspect-[4/3] md:aspect-auto bg-gray-100 overflow-hidden relative">
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
                 </div>
                 
-                <div className="flex space-x-4">
-                  <a href={project.liveLink} className="text-sm flex items-center hover:text-purple-600 transition-colors">
-                    <ExternalLink className="h-4 w-4 mr-1" />
-                    View Project
-                  </a>
-                  <a href={project.codeLink} className="text-sm flex items-center hover:text-purple-600 transition-colors">
-                    <Github className="h-4 w-4 mr-1" />
-                    View Code
-                  </a>
-                </div>
+                <CardContent className="md:col-span-2 p-6 flex flex-col justify-between h-full">
+                  <div>
+                    <h3 className="text-2xl font-serif mb-3 relative group">
+                      {project.title}
+                      {activeProject === index && (
+                        <span className="absolute -left-3 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-purple-500 rounded-full"></span>
+                      )}
+                    </h3>
+                    <p className="mb-4 text-base">{project.description}</p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tags.map((tag, i) => (
+                        <span 
+                          key={i} 
+                          className={`text-sm py-1 px-3 rounded-full transition-colors duration-300 
+                            ${activeProject === index 
+                              ? 'bg-purple-100 text-purple-800' 
+                              : 'bg-secondary text-foreground/70'}`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-4 mt-4">
+                    <a href={project.liveLink} className="text-sm flex items-center hover:text-purple-600 transition-colors">
+                      <ExternalLink className="h-4 w-4 mr-1" />
+                      View Project
+                    </a>
+                    <a href={project.codeLink} className="text-sm flex items-center hover:text-purple-600 transition-colors">
+                      <Github className="h-4 w-4 mr-1" />
+                      View Code
+                    </a>
+                  </div>
+                </CardContent>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>
