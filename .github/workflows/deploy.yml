@@ -1,4 +1,4 @@
-filename: Deploy
+name: Deploy
 
 on:
   push:
