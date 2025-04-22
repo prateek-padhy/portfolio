@@ -1,6 +1,5 @@
-
 import { useState, useEffect, useRef } from 'react';
-import { Gamepad, Home, User, Briefcase, Mail } from 'lucide-react';
+import { Gamepad, User, Briefcase, Mail, Home } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
@@ -94,9 +93,6 @@ const Navbar = () => {
           <div className="flex items-center space-x-6 md:space-x-10">
             {isMobile ? (
               <>
-                <a href="#home" className="nav-link p-2">
-                  <Home className="w-5 h-5" />
-                </a>
                 <a href="#about" className="nav-link p-2">
                   <User className="w-5 h-5" />
                 </a>
