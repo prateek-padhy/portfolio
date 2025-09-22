@@ -21,7 +21,7 @@ const HeroSection = () => {
               passion
               <span className="absolute bottom-0 left-0 w-full h-1 bg-purple-500/50"></span>
             </span>
-            and
+            &
             <span className="relative inline-block mx-2">
               precision
               <span className="absolute bottom-0 left-0 w-full h-1 bg-purple-500/50"></span>

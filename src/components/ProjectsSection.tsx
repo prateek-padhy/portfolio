@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 const ProjectsSection = () => {
@@ -7,33 +7,33 @@ const ProjectsSection = () => {
 
   const projects = [
     {
-      title: "E-Commerce Platform",
+      title: "Risk Data & Services",
       description:
-        "A responsive e-commerce website built with React and Redux, featuring product listings, cart functionality, and payment integration.",
+        "Unified 12 analytics apps into a blazing-fast React Nx monorepo, boosting deployment efficiency by 60%. Led the creation of a shared component library and design system, modernised data visualisation with React + TypeScript, and introduced Google Maps API for stunning, interactive risk insights.",
       image:
         "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1000",
-      tags: ["React", "Redux", "Node.js", "MongoDB"],
-      liveLink: "#",
+      tags: ["React", "Nx Monorepo", "Google Maps API", "Module Federatoin", "Vite", "Docker", "MUI"],
+      liveLink: "https://corporatesolutions.swissre.com/insurance-services/risk-data-and-services.html",
       codeLink: "#",
     },
     {
-      title: "Task Management App",
+      title: "TalkTalk Help & Support",
       description:
-        "A dynamic single-page application for managing tasks, built with Vue.js and Firebase, with real-time updates and drag-and-drop functionality.",
+        "Built a robust Angular portal serving 35k+ weekly users, slashing support calls by 25%. Integrated Contentful CMS for rapid content updates, delivered diagnostic tools, and enabled data-driven decisions with Optimizely and Google Analytics.",
       image:
         "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=1000",
-      tags: ["Vue.js", "Firebase", "CSS3", "JavaScript"],
-      liveLink: "#",
+      tags: ["Angulat", "Optimizely", "Redux", "Bootstrap", "Node.js", "Jest", "Cypress"],
+      liveLink: "https://www.talktalk.co.uk/",
       codeLink: "#",
     },
     {
-      title: "Portfolio Website",
+      title: "Goods & Services Tax (GST)",
       description:
-        "An interactive portfolio site with scroll-triggered animations and transitions, showcasing creative design principles and smooth interactions.",
+        "Engineered frontend components for India’s GST portal, empowering millions of businesses. Developed Java microservices, real-time dashboards, and delivered seamless multilingual support across 24 languages.",
       image:
         "https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=1000",
-      tags: ["HTML", "SCSS", "JavaScript", "GSAP"],
-      liveLink: "#",
+      tags: ["Angular", "Nginx", "REST APIs", "C3.js", "Java","WCAG", "I18n", "L10n" ],
+      liveLink: "https://www.gst.gov.in/",
       codeLink: "#",
     },
   ];
@@ -102,16 +102,10 @@ const ProjectsSection = () => {
                     <a
                       href={project.liveLink}
                       className="text-sm flex items-center hover:text-purple-600 transition-colors"
+                      target="_blank"
                     >
                       <ExternalLink className="h-4 w-4 mr-1" />
                       View Project
-                    </a>
-                    <a
-                      href={project.codeLink}
-                      className="text-sm flex items-center hover:text-purple-600 transition-colors"
-                    >
-                      <Github className="h-4 w-4 mr-1" />
-                      View Code
                     </a>
                   </div>
                 </CardContent>
