@@ -11,7 +11,7 @@ const Navbar = () => {
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
   const targetGeneratorRef = useRef<NodeJS.Timeout | null>(null);
-  const brandName = "John Doe";
+  const portfolioOwner = "Prateek Padhy";
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const Navbar = () => {
       <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-cream/80 backdrop-blur-sm py-4' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto flex justify-between items-center px-6">
           <a href="#home" className="text-2xl font-serif">
-            {brandName.split('').map((char, index) => (
+            {portfolioOwner.split('').map((char, index) => (
               <span key={index} className="brand-char" style={{ transitionDelay: `${index * 50}ms` }}>
                 {char === ' ' ? '\u00A0' : char}
               </span>

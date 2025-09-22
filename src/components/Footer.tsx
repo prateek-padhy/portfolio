@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center pt-8">
           <div className="mb-4 md:mb-0">
             <a href="#home" className="text-xl font-serif">
-              John Doe
+              Prateek Padhy
             </a>
           </div>
 

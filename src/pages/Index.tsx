@@ -10,7 +10,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 
 const Index = () => {
   useEffect(() => {
-    document.title = 'John Doe | Frontend Developer';
+    document.title = 'Prateek Padhy | Frontend Developer';
   }, []);
 
   return (
