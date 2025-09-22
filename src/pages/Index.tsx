@@ -7,7 +7,6 @@ import ProjectsSection from '@/components/ProjectsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
-import SkillsSection from '@/components/SkillsSection';
 
 const Index = () => {
   useEffect(() => {
@@ -22,7 +21,6 @@ const Index = () => {
       
       <ScrollReveal>
         <AboutSection />
-        <SkillsSection />
         <ProjectsSection />
         <ContactSection />
       </ScrollReveal>

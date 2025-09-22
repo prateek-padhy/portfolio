@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Gamepad, User, Briefcase, Mail, Home } from 'lucide-react';
+import { Gamepad, User, Briefcase, Mail } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
@@ -8,9 +8,11 @@ const Navbar = () => {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
   const [targets, setTargets] = useState<{id: number, x: number, y: number, size: number}[]>([]);
+  const [spin, setSpin] = useState(false); // Add spin state
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
   const targetGeneratorRef = useRef<NodeJS.Timeout | null>(null);
+  const spinTimeoutRef = useRef<NodeJS.Timeout | null>(null); // For clearing spin timeout
   const portfolioOwner = "Prateek Padhy";
   const isMobile = useIsMobile();
 
@@ -22,6 +24,19 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Spin animation every 10s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSpin(true);
+      // Remove spin after animation duration (1s)
+      spinTimeoutRef.current = setTimeout(() => setSpin(false), 1000);
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+      if (spinTimeoutRef.current) clearTimeout(spinTimeoutRef.current);
+    };
   }, []);
 
   const startGame = () => {
@@ -121,8 +136,15 @@ const Navbar = () => {
       </header>
       
       {/* Mini-Game Button - now using Gamepad icon */}
-      <button onClick={() => gameActive ? endGame() : startGame()} className="easter-egg" aria-label="Mini Game">
-        <Gamepad className="w-5 h-5 text-purple-500" />
+      <button
+        onClick={() => gameActive ? endGame() : startGame()}
+        className="easter-egg"
+        aria-label="Mini Game"
+        style={{ outline: 'none', background: 'none', border: 'none', cursor: 'pointer' }}
+      >
+        <span className={spin ? "animate-spin-once" : ""}>
+          <Gamepad className="w-5 h-5 text-purple-500" />
+        </span>
       </button>
 
       {/* Target Practice Mini-Game */}
@@ -178,6 +200,17 @@ const Navbar = () => {
           />
         ))}
       </div>
+
+      {/* Add spin animation style */}
+      <style>{`
+        .animate-spin-once {
+          animation: spin-once 1s linear;
+        }
+        @keyframes spin-once {
+          0% { transform: rotate(0deg);}
+          100% { transform: rotate(360deg);}
+        }
+      `}</style>
     </>
   );
 };
